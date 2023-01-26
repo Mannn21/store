@@ -1,0 +1,96 @@
+.product-page {
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.product-page > .select {
+    width: 100%; height: 60px;
+}
+
+.product-page > .select > .dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; align-items: flex-end;
+    width: 174px;
+}
+
+.product-page > .select > .dropdown-wrapper > .dropdown {
+    display: flex; flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.product-page > .select > .dropdown-wrapper > .dropdown > .sort {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.product-page > .select > .dropdown-wrapper > .dropdown >.input {
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    outline: none;
+    border: 1px solid #777;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 2px;
+    width: 100px;
+}
+
+.product-page > .select > .dropdown-wrapper > .dropdown > .input:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.product-page > .select > .dropdown-wrapper > .dropdown > .active {
+    border: 2px solid #ba1eda;
+}
+
+.product-page > .select > .dropdown-wrapper > .menu {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    margin-top: 5px;
+    gap: 3px;
+    width: 100px;
+}
+
+.product-page > .select > .dropdown-wrapper > .open {
+    opacity: 1;
+}
+
+.product-page > .select > .dropdown-wrapper > .close {
+    opacity: 0;
+}
+
+.product-page > .select > .dropdown-wrapper > .menu > button {
+    width: 100%;
+    font-size: 14px; letter-spacing: .3px;
+    padding: 1px;
+    display: flex;
+    align-items: center; justify-content: space-around;
+    background-color: white;
+    outline: none; border: 1px solid #777; border-radius: 2px;
+    cursor: pointer;
+}
+
+.product-page > .select > .dropdown-wrapper > .menu > button:active {
+    border: 2px solid #ba1eda;
+}
+
+.product-page > .select > .dropdown-wrapper > .menu > button:hover {
+    background-color: rgb(240, 240, 240);
+    border: 1px solid #ba1eda;
+}
+
+/* Cards */
+
+.product-page > .open {
+    margin-top: 50px;
+}
+
+.card-wrapper {
+    display: flex; flex-direction: column;
+    gap: 12px;
+}

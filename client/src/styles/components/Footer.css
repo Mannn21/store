@@ -1,0 +1,121 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 40px;
+    box-sizing: border-box;
+    height: 280px;
+    border-top: 1px solid rgb(224, 224, 224);
+    background-color: rgb(241, 241, 241);
+}
+
+/* Header footer */
+
+.footer > .header-footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 40px;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .header-footer-wrapper > h1, .footer > .header-footer-wrapper > span {
+    background-color: rgb(241, 241, 241);
+}
+
+/* About Footer */
+
+.footer > .about-footer-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .about-footer-wrapper > h3 {
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .about-footer-wrapper > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .about-footer-wrapper > ul > .about-footer {
+    list-style-type: none;
+    color: #333;
+    cursor: pointer;
+    padding: 3px;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .about-footer-wrapper > ul > .about-footer:hover {
+    background-color: rgb(192, 192, 192);
+    border-radius: 3px;
+}
+
+/* Social Media Footer */
+
+.footer > .social-footer-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    margin-right: -30px;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .social-footer-wrapper > h3 {
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .social-footer-wrapper > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .social-footer-wrapper > ul > .social-footer {
+    list-style-type: none;
+    color: #333;
+    cursor: pointer;
+    padding: 3px;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .social-footer-wrapper > ul > .social-footer:hover {
+    background-color: rgb(192, 192, 192);
+    border-radius: 3px;
+}
+
+/* Complaine footer */
+
+.footer > .complain-footer-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .complain-footer-wrapper > h3 {
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .complain-footer-wrapper > .input-footer-complain {
+    outline: none;
+    width: 250px;
+    font-size: 16px;
+    padding: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid rgba(119, 119, 119, .5);
+    background-color: rgb(241, 241, 241);
+}
+
+.footer > .complain-footer-wrapper > .input-footer-complain:focus {
+    border-bottom: 2px solid rgb(107, 107, 107);
+}

@@ -1,0 +1,93 @@
+
+.card {
+    width: 95%; height: 230px;
+    display: flex; flex-direction: row; gap: 10px;
+    justify-content: space-between; align-items: flex-start;
+}
+
+.card > .card-image {
+    width: 220px; height: 230px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    background-color: rgb(241, 241, 241);
+}
+
+.card > .card-image > img {
+    height: 200px; width: 200px;
+    background-color: rgb(241, 241, 241);
+}
+
+.card > .card-description {
+    display: flex; flex-direction: column;
+    justify-content: space-around; align-items: flex-start;
+    gap: 25px;
+}
+
+.card > .card-description > .card-detail {
+    display: flex; flex-direction: column;  gap: 10px;
+    justify-content: space-around; align-items: flex-start;
+    padding-top: 10px;
+}
+
+.card > .card-description > .card-detail > .card-title {
+    font-size: 25px;
+}
+
+.card > .card-description > .card-detail > .card-price {
+    font-size: 18px; font-weight: 500;
+    color: rgb(21, 134, 21);
+}
+
+.card > .card-description > .card-detail > .card-desc {
+    font-size: 16px; letter-spacing: .4px;
+}
+
+.card > .card-description > .card-checkout {
+    display: flex; flex-direction: row;
+    justify-content: flex-start; align-items: center;
+    gap: 20px;
+}
+
+.card > .card-description > .card-checkout > .checkout-item {
+    border: 1px solid black; padding: 10px;
+    font-size: 16px;
+    height: 30px; width: 100px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: black;
+}
+
+.card > .card-description > .card-checkout > .checkout-item::before {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    background-color: rgb(206, 0, 206);
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .5s;
+}
+
+.card > .card-description > .card-checkout > .checkout-item:hover {
+    transition: color ease-in-out .2s;
+    color: white;
+    z-index: 1;
+}
+
+.card > .card-description > .card-checkout > .checkout-item:hover:before {
+    width: 100%;
+}
+
+.card > .card-description > .card-checkout > .toLocation > .checkout-icon {
+    font-size: 25px;
+    cursor: pointer;
+    color: black;
+}
+
+.card > .card-description > .card-checkout > .toLocation > .checkout-icon:hover  {
+    color: crimson;
+    transform: scale(1.2);
+}
