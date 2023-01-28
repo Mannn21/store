@@ -29,6 +29,37 @@ const upload = multer({
     }
 }).single('image')
 
+const getAllProduct = async (req, res) => {
+    const product = await ProductModel.findAll()
+    try {
+        response(200, product, "Request Success", res)
+    }
+    catch ( error ) {
+        response(500, error, "Server Error", res)
+    }
+}
+
+const getOneProduct = async (req, res) => {
+    try {
+        if(!req) {
+            response(400, error, "Something wrong", res)
+            return;
+        }
+        const seriProduct = req.body.seriProduct
+        const product = await ProductModel.findOne({where: {seriProduct}})
+        if(product) {
+            response(200, product, "Request Success", res)
+        }
+        if(!product) {
+            response(400, "Bad Request", "Request Data Failed")
+            return;
+        }
+    }
+    catch ( error ) {
+        response(500, error, "Server Error", res)
+    }
+}
+
 const createProduct = async (req, res) => {
     try{
         if(!req) {
@@ -36,7 +67,6 @@ const createProduct = async (req, res) => {
         return;
         }
         const data = {
-            image: req.file.path,
             seriProduct: req.body.seriProduct,
             product: req.body.product,
             price: req.body.price,
@@ -45,54 +75,140 @@ const createProduct = async (req, res) => {
             size: req.body.size,
         }
         const product = await ProductModel.create(data)
-        console.log(product)
-        // response(200, product, "Request Success", res)
+        if(!product.dataValues) {
+            response(400, "Bad Request", "Request Data Failed")
+            return;
+        }
+        if(product.dataValues) {
+            response(201, product, "Request Data Success", res)
+        }
     }
-    catch(error) {
-        response(400, error, "Something wrong", res)
+    catch ( error ) {
+        response( 500, error, "Server Error", res )
+    }
+}
+
+const uploadImage = async (req, res) => {
+    try {
+        if(!req) {
+            response(400, error, "Something wrong", res)
+            return;
+        }
+        const data = {
+            seriProduct: req.body.seriProduct,
+            image: req.file.path
+        }
+        const search = await ProductModel.findOne( {where: { seriProduct: data.seriProduct } } )
+        if(!search) {
+            response(404, "Data not Enough", "Bad Request", res)
+            return;
+        }
+        const product = await ProductModel.update( { image: data.image }, {where: { id: search.id } } )
+        response(200, product, "Request Success", res)
+    }
+    catch ( error ) {
+        response( 500, error, "Server Error", res )
+    }
+}
+
+const updateProduct = async (req, res) => {
+    try {
+        if(!req) {
+            response(400, error, "Something wrong", res)
+            return;
+        }
+        const data = {
+            seriProduct: req.body.seriProduct,
+            product: req.body.product,
+            price: req.body.price,
+            category: req.body.category,
+            color: req.body.color,
+            size: req.body.size
+        }
+        const search = await ProductModel.findOne({where: {seriProduct: data.seriProduct}})
+        if(search.dataValues) {
+            const update = await ProductModel.update({
+                product: data.product, price: data.price, category: data.category, color: data.color, size: data.size
+            }, {where: {id: search.id}})
+            response(200, update, "Request Success", res)
+        }
+        if(!search.dataValues) {
+            response(404, "Data not Enough", "Bad Request", res)
+            return;
+        }
+    } 
+    catch ( error ) {
+        response( 500, error, "Server Error", res )
+    }
+}
+
+const updateImage = async (req, res) => {
+    try{
+        if(!req) {
+            response(400, error, "Something wrong", res)
+            return;
+        }
+        const data = {
+            seriProduct: req.body.seriProduct,
+            image: req.file.path
+        }
+        const search = await ProductModel.findOne( {where: { seriProduct: data.seriProduct } } )
+        if(search.dataValues) {
+            const filePath = search.image
+            fs.unlinkSync(filePath)
+            const update = await ProductModel.update({
+                image: data.image
+            }, {where: {id: search.id}})
+            response(200, update, "Request Success", res)
+        }
+        if(!search.dataValues) {
+            response(404, "Data not Enough", "Bad Request", res)
+            return;
+        }
+    }
+    catch ( error ) {
+        response( 500, error, "Server Error", res )
+    }
+}
+
+const deleteProduct = async (req, res) => {
+    try{
+        if(!req){
+            response(400, error, "Something wrong", res)
+            return;
+        }
+        const seriProduct = req.body.seriProduct
+        const search = await ProductModel.findOne({where: {seriProduct: seriProduct}})
+        if(search.dataValues) {
+            const filePath = search.image
+            fs.unlinkSync(filePath)
+            const deleteProduct = await ProductModel.destroy({where: {seriProduct: search.seriProduct}})
+            response(200, deleteProduct, "Request Success", res)
+        }
+        if(!search) {
+            response(404, "Data not Enough", "Bad Request", res)
+            return;
+        }
+    }
+    catch ( error ) {
+        response( 500, error, "Server Error", res )
     }
 }
 
 
-
-
 module.exports = {
+    getAllProduct,
+    getOneProduct,
     createProduct,
+    uploadImage,
+    updateProduct,
+    updateImage,
+    deleteProduct,
     upload
 }
 
 
 
-// const createImage = async (req, res) => {
-//     try {
-//         if (!req.file) {
-//             res.status(400).send('No file uploaded.');
-//             return;
-//         }
-//         const file = req.file;
-//         const fileName = file.filename;
-//         const filePath = `images/${fileName}`;
 
-//         const fileUpload = bucket.file(filePath);
-//         const stream = fileUpload.createWriteStream({
-//             metadata: {
-//                 contentType: file.mimetype
-//             }
-//         });
-
-//         stream.on('error', (err) => {
-//             res.status(500).send(err);
-//         });
-
-//         stream.on('finish', async () => {
-//             await fileUpload.makePublic();
-//             const url = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileUpload.name)}?alt=media`;
-//             res.status(200).send(url);
-//         });
-//         stream.end(file.buffer);
-//     } catch (err) {
-//         res.status(500).send(err);
-//     }
-// };
 
 
