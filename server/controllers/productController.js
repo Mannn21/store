@@ -3,17 +3,7 @@ const response = require('../utils/response')
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
-const admin = require('firebase-admin');
 
-
-const serviceAccount = require('../creds.json')
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'gs://store-e7de5.appspot.com'
-  });
-
-const bucket = admin.storage().bucket('gs://store-e7de5.appspot.com');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -39,54 +29,35 @@ const upload = multer({
     }
 }).single('image')
 
-const createProductImage = async (req, res) => {
-    try {
-        if (!req.file) {
-            res.status(400).send('No file uploaded.');
-            return;
+const createProduct = async (req, res) => {
+    try{
+        if(!req) {
+        response(400, error, "Something wrong", res)
+        return;
         }
-        const file = req.file;
-        const fileName = file.filename;
-        const filePath = `images/${fileName}`;
-
-        // Upload image to Firebase
-        const fileUpload = bucket.file(filePath);
-        const stream = fileUpload.createWriteStream({
-            metadata: {
-                contentType: file.mimetype
-            }
-        });
-
-        stream.on('error', (err) => {
-            res.status(500).send(err);
-        });
-
-        stream.on('finish', async () => {
-            await fileUpload.makePublic();
-            const url = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileUpload.name)}?alt=media`;
-
-            // Save product data to MySQL
-            const data = {
-                image: url,
-                seriProduct: req.body.seriProduct,
-                product: req.body.product,
-                price: req.body.price,
-                category: req.body.category,
-                color: req.body.color,
-                size: req.body.size,
-            }
-            const product = await ProductModel.create(data)
-            response(200, product, "Request Success", res)
-        });
-        stream.end(file.buffer);
-    } catch (err) {
-        response(400, err, "Something wrong", res)
+        const data = {
+            image: req.file.path,
+            seriProduct: req.body.seriProduct,
+            product: req.body.product,
+            price: req.body.price,
+            category: req.body.category,
+            color: req.body.color,
+            size: req.body.size,
+        }
+        const product = await ProductModel.create(data)
+        console.log(product)
+        // response(200, product, "Request Success", res)
     }
-};
+    catch(error) {
+        response(400, error, "Something wrong", res)
+    }
+}
+
+
 
 
 module.exports = {
-    createProductImage,
+    createProduct,
     upload
 }
 
@@ -125,21 +96,3 @@ module.exports = {
 // };
 
 
-// const createProduct = async (req, res) => {
-//     const data = {
-//         image: req.file.path,
-//         seriProduct: req.body.seriProduct,
-//         product: req.body.product,
-//         price: req.body.price,
-//         category: req.body.category,
-//         color: req.body.color,
-//         size: req.body.size,
-//     }
-//     const product = await ProductModel.create(data)
-//     try{
-//         response(200, product, "Request Success", res)
-//     }
-//     catch(error) {
-//         response(400, error, "Something wrong", res)
-//     }
-// }
