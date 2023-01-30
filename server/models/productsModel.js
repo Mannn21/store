@@ -1,15 +1,13 @@
 const { Model, DataTypes } = require('sequelize')
 const sequelize = require('../config/db.config')
+const Color = require('./colorsModel')
+const Size = require('./sizesModel')
 
-class Products extends Model{}
+class Product extends Model {}
 
-Products.init({
-    seriProduct: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true
-    },
-    image: {
+
+Product.init({
+    image: { 
         type: DataTypes.STRING
     },
     product: {
@@ -18,10 +16,6 @@ Products.init({
     },
     price: {
         type: DataTypes.FLOAT,
-        allowNull: false
-    },
-    category: {
-        type: DataTypes.STRING,
         allowNull: false
     },
     color: {
@@ -33,6 +27,14 @@ Products.init({
 }, {
     sequelize,
     modelName: "Products"
-})
+}); 
 
-module.exports = Products
+
+Color.belongsToMany(Product, {through: "variant_products", as: "product"})
+Product.belongsToMany(Color, {through: "variant_products", as: "variant"})
+
+Product.belongsToMany(Size, {through: "size_products", as: "large"})
+Size.belongsToMany(Product, {through: "size_products", as: "model"})
+
+
+module.exports = Product
