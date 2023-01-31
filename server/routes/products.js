@@ -4,6 +4,12 @@ const productController = require('../controllers/productController')
 
 // ======================================= GET DATAS ========================================================
 router.get('/', productController.getAllProduct)
+router.get('/allColor', productController.getAllColor)
+router.get('/allCategory', productController.getAllCategory)
+router.get('/allSize', productController.getAllSize)
+router.get('/color', productController.getColorProduct)
+router.get('/category', productController.getCategoryProduct)
+router.get('/size', productController.getSizeProduct)
 router.post('/product', productController.getOneProduct)
 
 // ========================================== CREATE DATAS ===================================================
@@ -27,6 +33,9 @@ router.post('/upload',  productController.upload, productController.uploadImage)
 
 router.post('/updateProduct', productController.updateProduct)
 router.post('/updateImage',  productController.upload, productController.updateImage)
+router.post('/updateColor', productController.updateColor)
+router.post('/updateCategory', productController.updateCategory)
+router.post('/updateSize', productController.updateSize)
 
 // ==================================================================== UPDATE RELATION =============================================
 
@@ -40,5 +49,11 @@ router.post('/delete', productController.deleteProduct)
 router.post('/deleteSize', productController.deleteSize)
 router.post('/deleteColor', productController.deleteColor)
 router.post('/deleteCategory', productController.deleteCategory)
+
+// ==================================================================== DELETE RELATIONS ========================================
+
+router.post('/deleteVariant', productController.deleteRelationColor)
+router.post('/deleteTag', productController.deleteRelationCategory)
+router.post('/deleteLarge', productController.deleteRelationSize)
 
 module.exports = router

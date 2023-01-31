@@ -39,7 +39,7 @@ const upload = multer({
 // ================================================= GET DATAS ============================================================
 
 const getAllProduct = async (req, res) => {
-    const limit = req.query.limit || 2;
+    const limit = req.query.limit || 10;
     const page = req.query.page || 1;
     const offset = (page - 1) * limit;
     const product = await ProductModel.findAll({
@@ -73,7 +73,49 @@ const getAllProduct = async (req, res) => {
 }
 
 const getAllColor = async (req, res) => {
-    const color = await ColorModel.findAll()
+    try{
+        const color = await ColorModel.findAll()
+        response(200, {Color: color}, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "","", res)
+    }
+}
+
+const getAllCategory = async (req, res) => {
+    try{
+        const category = await CategoryModel.findAll()
+        response(200, {Category: category}, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "","", res)
+    }
+}
+
+const getAllSize = async (req, res) => {
+    try{
+        const size = await SizeModel.findAll()
+        response(200, {Size: size}, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "","", res)
+    }
+}
+
+const getColorProduct = async (req, res) => {
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const offset = (page - 1) * limit;
+    const color = await ColorModel.findAll({
+        limit,
+        offset,
+        include: [
+            {
+                model: ProductModel,
+                as: "product"
+            }
+        ]
+    })
     try {
         response(200, color, "Request Success", "", "", res)
     }
@@ -82,8 +124,20 @@ const getAllColor = async (req, res) => {
     }
 }
 
-const getAllCategory = async (req, res) => {
-    const category = await CategoryModel.findAll()
+const getCategoryProduct = async (req, res) => {
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const offset = (page - 1) * limit;
+    const category = await CategoryModel.findAll({
+        limit,
+        offset,
+        include: [
+            {
+                model: ProductModel,
+                as: "product"
+            }
+        ]
+    })
     try {
         response(200, category, "Request Success", "", "", res)
     }
@@ -92,8 +146,20 @@ const getAllCategory = async (req, res) => {
     }
 }
 
-const getAllSize = async (req, res) => {
-    const size = await SizeModel.findAll()
+const getSizeProduct = async (req, res) => {
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const offset = (page - 1) * limit;
+    const size = await SizeModel.findAll({
+        limit,
+        offset,
+        include: [
+            {
+                model: ProductModel,
+                as: "model"
+            }
+        ]
+    })
     try {
         response(200, size, "Request Success", "", "", res)
     }
@@ -301,6 +367,7 @@ const updateProduct = async (req, res) => {
         }
         const data = {
             product: req.body.product,
+            newProduct: req.body.newProduct,
             price: req.body.price,
             category: req.body.category,
             color: req.body.color,
@@ -309,7 +376,7 @@ const updateProduct = async (req, res) => {
         const search = await ProductModel.findOne({ where: { product: data.product } })
         if (search.dataValues) {
             const update = await ProductModel.update({
-                product: data.product, price: data.price, category: data.category, color: data.color, size: data.size
+                product: data.newProduct, price: data.price, category: data.category, color: data.color, size: data.size
             }, { where: { id: search.id } })
             response(200, update, "Request Success", "", "", res)
         }
@@ -346,6 +413,75 @@ const updateImage = async (req, res) => {
             response(404, "Data not Enough", "Bad Request", "", "", res)
             return;
         }
+    }
+    catch (error) {
+        response(500, error, "Server Error", "", "", res)
+    }
+}
+
+const updateColor = async (req, res) => {
+    try {
+        if(!req) {
+            response(400, error, "Something wrong", "", "", res)
+            return;
+        }
+        const data = {
+            color: req.body.color,
+            newColor: req.body.newColor
+        }
+        const search = await ColorModel.findOne( {where: {color: data.color}} )
+        if(!search) {
+            response(404, "Data not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const update = await ColorModel.update({color: data.newColor}, {where: {id: search.dataValues.id}})
+        response(200, {Update: update, Color: data.newColor}, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "", "", res)
+    }
+}
+
+const updateCategory = async (req, res) => {
+    try {
+        if(!req) {
+            response(400, error, "Something wrong", "", "", res)
+            return;
+        }
+        const data = {
+            category: req.body.category,
+            newCategory: req.body.newCategory
+        }
+        const search = await CategoryModel.findOne( {where: {category: data.category}} )
+        if(!search) {
+            response(404, "Data not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const update = await CategoryModel.update({category: data.newCategory}, {where: {id: search.dataValues.id}})
+        response(200, {Update: update, Category: data.newCategory}, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "", "", res)
+    }
+}
+
+const updateSize = async (req, res) => {
+    try {
+        if(!req) {
+            response(400, error, "Something wrong", "", "", res)
+            return;
+        }
+        const data = {
+            size: req.body.size,
+            newSize: req.body.newSize
+        }
+        const search = await SizeModel.findOne( {where: {size: data.size}} )
+        if(!search) {
+            response(404, "Data not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const update = await SizeModel.update({size: data.newSize}, {where: {id: search.dataValues.id}})
+        response(200, {Update: update, Size: data.newSize}, "Request Success", "", "", res)
     }
     catch (error) {
         response(500, error, "Server Error", "", "", res)
@@ -580,8 +716,80 @@ const deleteCategory = async (req, res) => {
     }
 }
 
+const deleteRelationColor = async (req, res) => {
+    try {
+        const data = {
+            color: req.body.color,
+            product: req.body.product
+        }
+        const searchProduct = await ProductModel.findOne( {where: {product: data.product}} )
+        const searchColor = await ColorModel.findOne( {where: {color: data.color}} )
+        if(!searchColor || ! searchProduct) {
+            response(404, "Data Not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const search = await VariantModel.findOne( {where: {ProductId: searchProduct.dataValues.id, ColorId: searchColor.dataValues.id}} )
+        if(!search) {
+            response(404, "Data Not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const deleteRelation = await VariantModel.destroy( {where: {id: search.dataValues.id}} )
+        response(200, deleteRelation, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "", "", res)
+    }
+}
 
+const deleteRelationCategory = async (req, res) => {
+    try {
+        const data = {
+            color: req.body.color,
+            category: req.body.category
+        }
+        const searchProduct = await ProductModel.findOne( {where: {product: data.product}} )
+        const searchCategory = await CategoryModel.findOne( {where: {category: data.category}} )
+        if(!searchCategory || ! searchProduct) {
+            response(404, "Data Not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const search = await TagModel.findOne( {where: {ProductId: searchProduct.dataValues.id, CategoryId: searchCategory.dataValues.id}} )
+        if(!search) {
+            response(404, "Data Not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const deleteRelation = await TagModel.destroy( {where: {id: search.dataValues.id}} )
+        response(200, deleteRelation, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "", "", res)
+    }
+}
 
+const deleteRelationSize = async (req, res) => {
+    try {
+        const data = {
+            color: req.body.color,
+            size: req.body.size
+        }
+        const searchProduct = await ProductModel.findOne( {where: {product: data.product}} )
+        const searchSize = await SizeModel.findOne( {where: {size: data.size}} )
+        if(!searchSize || ! searchProduct) {
+            response(404, "Data Not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const search = await LargeModel.findOne( {where: {ProductId: searchProduct.dataValues.id, SizeId: searchSize.dataValues.id}} )
+        if(!search) {
+            response(404, "Data Not Enough", "Bad Request", "", "", res)
+            return;
+        }
+        const deleteRelation = await LargeModel.destroy( {where: {id: search.dataValues.id}} )
+        response(200, deleteRelation, "Request Success", "", "", res)
+    }
+    catch (error) {
+        response(500, error, "Server Error", "", "", res)
+    }
+}
 
 module.exports = {
     // ===== GET DATA =====
@@ -589,6 +797,9 @@ module.exports = {
     getAllColor,
     getAllCategory,
     getAllSize,
+    getColorProduct,
+    getCategoryProduct,
+    getSizeProduct,
     getOneProduct,
     //  ===== CREATE DATA =====
     createProduct,
@@ -600,6 +811,9 @@ module.exports = {
     // ===== UPDATE DATA =====
     updateProduct,
     updateImage,
+    updateCategory,
+    updateColor,
+    updateSize,
     // ====== DELETE DATA ======
     deleteProduct,
     deleteSize,
@@ -614,6 +828,9 @@ module.exports = {
     updateLargeModel,
     updateTagModel,
     // ===== DELETE RELATION =====
+    deleteRelationCategory,
+    deleteRelationColor,
+    deleteRelationSize,
     // ===== UPLOAD IMAGE ======
     upload
 }
