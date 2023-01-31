@@ -1,19 +1,19 @@
 const { Model, DataTypes } = require('sequelize')
 const sequelize = require('../config/db.config')
 
-class Color extends Model {}
+class Category extends Model {}
 
 
-Color.init({
-    color: { 
+Category.init({
+    category: { 
         type: DataTypes.STRING
     }
 }, {
     sequelize,
-    modelName: "Color"
+    modelName: "Category"
 });
 
 
 
 
-module.exports = Color
+module.exports = Category
