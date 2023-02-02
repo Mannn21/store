@@ -10,7 +10,7 @@ router.get('/allSize', productController.getAllSize)
 router.get('/color', productController.getColorProduct)
 router.get('/category', productController.getCategoryProduct)
 router.get('/size', productController.getSizeProduct)
-router.post('/product', productController.getOneProduct)
+router.post('/getOne', productController.getOneProduct)
 
 // ========================================== CREATE DATAS ===================================================
 

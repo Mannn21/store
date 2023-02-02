@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize')
-const sequelize = require('../config/db.config')
+const sequelize = require('../../config/db.config')
 const Color = require('./colorsModel')
 const Size = require('./sizesModel')
 const Category = require('./tagsModel')

@@ -1,13 +1,13 @@
 const {Model, DataTypes} = require('sequelize')
-const sequelize = require('../config/db.config')
+const sequelize = require('../../config/db.config')
 
-class variant_product extends Model {}
+class size_product extends Model {}
 
-variant_product.init({
+size_product.init({
     ProductId: {
         type: DataTypes.INTEGER
     },
-    ColorId: {
+    SizeId: {
         type: DataTypes.INTEGER
     },
     stock: {
@@ -15,7 +15,7 @@ variant_product.init({
     }
 }, {
     sequelize,
-    modelName: "variant_product"
+    modelName: "size_product"
 })
 
-module.exports = variant_product
+module.exports = size_product
