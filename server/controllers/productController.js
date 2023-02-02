@@ -197,16 +197,23 @@ const createProduct = async (req, res) => {
             response(400, "error", "Something wrong", "", "", res)
             return;
         }
-        const product = await ProductModel.create({
-            ProductId: uuid.v4(),
+        const data = {
             product: req.body.product,
             price: req.body.price,
-        })
-        if (!product.dataValues) {
-            response(404, "Request Data Failed", "Bad Request", "", "", res)
+        }
+        const getProduct = await ProductModel.findOne({where: {product: data.product}})
+        if(getProduct === null) {
+            const product = await ProductModel.create({
+                ProductId: uuid.v4(),
+                product: req.body.product,
+                price: req.body.price,
+            })
+            response(200, product, "Request Success", "", "", res)
+        }
+        if (getProduct.dataValues) {
+            response(404, "Request Data Failed", "Product is already registered", "", "", res)
             return;
         }
-        response(200, product, "Request Success", "", "", res)
     }
     catch (error) {
         response(500, error, "Server Error", "", "", res)

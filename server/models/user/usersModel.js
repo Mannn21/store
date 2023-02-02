@@ -17,6 +17,10 @@ User.init({
         type: DataTypes.STRING,
         unique: true
     },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     telp: {
         type: DataTypes.INTEGER,
         allowNull: false,
