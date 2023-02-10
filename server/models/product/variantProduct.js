@@ -5,13 +5,20 @@ class variant_product extends Model {}
 
 variant_product.init({
     ProductId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    product: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     ColorId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
-    stock: {
-        type: DataTypes.INTEGER
+    color: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     sequelize,

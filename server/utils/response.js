@@ -1,12 +1,13 @@
-const response = (statusCode, data, message, next, prev, res) => {
-    res.status(statusCode).json({
+const response = (statusCode, data, message, toNext, prev, res) => {
+    res.json({
+        status: statusCode,
         payload: {
             details: data
         },
         message: message,
         metadata: {
             prev: prev,
-            next: next
+            next: toNext
         }
     })
 }

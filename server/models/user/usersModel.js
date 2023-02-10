@@ -4,14 +4,10 @@ const sequelize = require('../../config/db.config')
 class User extends Model {}
 
 User.init({
-    userId: {
-        type: DataTypes.INTEGER,
-        unique: true,
-        allowNull: false
-    },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     email: {
         type: DataTypes.STRING,
@@ -34,6 +30,13 @@ User.init({
     },
     image: {
         type: DataTypes.STRING
+    },
+    refresh_token: {
+        type: DataTypes.TEXT
+    },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     sequelize,

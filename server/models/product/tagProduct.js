@@ -5,13 +5,20 @@ class tag_product extends Model {}
 
 tag_product.init( {
     ProductId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    prodct: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    category: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     CategoryId: {
-        type: DataTypes.INTEGER
-    },
-    stock: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     sequelize,

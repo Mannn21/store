@@ -1,21 +1,22 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
-const port = process.env.PORT
+const port = process.env.PORT || 8800
 const cors = require('cors')
 const app = express()
 
 const sequelize = require('./config/db.config')
-sequelize.sync().then(() => console.log("Database ready"))
+sequelize.sync({force: false}).then(() => console.log("Database ready"))
 
 const productEndpoint = require('./routes/products')
 const userEndpoint = require('./routes/users')
 
-app.use(cors())
+app.use(cookieParser())
+app.use(cors( { credentials: true, origin: 'http://localhost:3000' } ))
 app.use(express.json())
-app.use('images', express.static('images'))
-app.use('images', express.static('userImages'))
+app.use(express.static('public'))
 
 app.use("/product", productEndpoint)
 app.use('/user', userEndpoint)
-app.listen(port, () => console.log(port))
+app.listen(port, () => console.log(`SERVER RUNNING IN PORT ${port}...`))
 

@@ -1,0 +1,16 @@
+GET http://localhost:8200/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJBaW1hbiIsImVtYWlsIjoibWFubjEyM0B5YWhvby5jb20iLCJpYXQiOjE2NzU5MjA5NjEsImV4cCI6MTY3NTkyMDk5MX0.RkoEu-imbt8X0PUNkeLZuHTRcI43F974uaepHGJTf9M
+### 
+POST http://localhost:8200/user/login
+Content-Type: application/json
+
+{
+    "telp": 81672345,
+    "password": "123"
+}
+
+###
+GET http://localhost:8200/user/refresh
+
+###
+DELETE http://localhost:8200/user/logout

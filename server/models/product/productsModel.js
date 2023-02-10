@@ -2,22 +2,16 @@ const { Model, DataTypes } = require('sequelize')
 const sequelize = require('../../config/db.config')
 const Color = require('./colorsModel')
 const Size = require('./sizesModel')
-const Category = require('./tagsModel')
+const Category = require('./categoriesModel')
 
 class Product extends Model {}
 
 
 Product.init({
-    image: { 
-        type: DataTypes.STRING
-    },
     product: {
         type: DataTypes.STRING,
-        allowNull: false
-    },
-    price: {
-        type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     color: {
         type: DataTypes.STRING

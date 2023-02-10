@@ -5,13 +5,20 @@ class size_product extends Model {}
 
 size_product.init({
     ProductId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    product: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     SizeId: {
-        type: DataTypes.INTEGER
-    },
-    stock: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }, 
+    size: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     sequelize,

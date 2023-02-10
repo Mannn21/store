@@ -6,7 +6,8 @@ class Color extends Model {}
 
 Color.init({
     color: { 
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
     }
 }, {
     sequelize,
